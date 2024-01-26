@@ -1,0 +1,162 @@
+---
+title: "Working with Markdown. My first R markdown document."
+author: "Daniel Penados-Richter"
+date: "2024-01-23"
+output: 
+  html_document: 
+    theme: journal
+    highlight: pygments
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+For Markdown, use asteriks to *indicate italic text*. 
+
+Double line return for a new chunk of text like this. 
+if not is like this. 
+
+You could always try this:
+
+Name  
+University of Vermont
+
+# Head line are made with hash marks
+
+## Two head marks make it smaller
+
+### Smaller
+
+#### So one...
+
+
+**Bold face this way**
+
+>Offset quote which embed and looks really nice when you have extended material that you would like to see. 
+
+back to plain text
+
+
+to find more useful code go to help>markdown quick reference
+
+List  
+*Item 1  
+*Item 2  
+  - Spacing incidents
+  
+  [Set up a link with text](website_adress)
+  
+  also footnotes^[whatever foot note]
+  
+We can create a fencing for code: 
+
+```
+fencing serts boundaries and everthin inside the fencing *is shown as literal text* without rendering
+
+```
+The Rmarkdown code help us Latex code becouse is excelent for any mathematical lenguaje. 
+
+to enter use a double $ signe
+
+$$
+a+b=c
+$$
+
+There is a second way to enter to latex lenguaje: $a+b=c$ like this  
+Now the material is ibedeed in my sentence. 
+
+A couple of examples in LateX: 
+
+The Curly brackets set that the particular code before apply to everything between it:  
+
+$$ H_0 = Z_{a + b} $$
+
+## we can also do superscripts in LaTeX
+
+$$ A = cA^z$$
+
+$$S=cA^z-1 + Z_{2 + x}$$
+## Fraction 
+
+$$\alpha = \frac{\beta}{\delta + \gamma_x}$$
+
+# We can do sumatorias. 
+
+$$z - \sum_{i=1}^X{K}$$
+
+
+What happens is a command is a symbols that we actually want to use? Well u use a backslash to scape the code. 
+
+
+$$\backslash \alpha \le b \backslash$$
+ To introduce plain text we can use a M box. 
+
+$$P(\mbox{Ocurrence Of Species A}) = Z$$
+
+
+### You can put things in line with the text. 
+
+
+But remember this does not have to be as an equation. We could also embed them in the sentnces with a single dollar sign. $\pi + 3$
+
+
+We can also use markdone fencing in file with a single backtick like this: `pi + 3` but remmeber 
+
+```3 backtick creats an isolated chunk of text```
+
+
+We can even execute R code inside of markdown. With r between backtick. Everithing after it is gonna be interpreted as R code `r pi +3`. In this case pi is store as the number 3.14.... and now is the results of the calculation explain before.  
+
+
+This come that we can do R code. Real chunks of R code. If you do 3 back ticks and {R} well creat a R code that will run as a code. 
+
+```{r}
+Pred <- seq(1, 10) #Make a vercotr of integer fron 1 to 10. 
+Res <- runif(10)   #generate 10 draws from a randon uniform (0,1) distristribution
+
+#print the random numbers
+print(Res)
+
+```
+
+
+As you see above,  It print the code, run it and print the result. it and printed 10 vrandom number between 0 and 1. Also can print the actual final graph, or whatever you want that R does. 
+
+we can ad an instruction to print the code, but do not print the output. 
+
+```{r eval=FALSE}
+Pred <- seq(1, 10) #Make a vercotr of integer fron 1 to 10. 
+Res <- runif(10)   #generate 10 draws from a randon uniform (0,1) distristribution
+
+#print the random numbers
+print(Res)
+
+```
+
+This other will print the result but will not show the code
+
+```{r eval=TRUE, echo=FALSE}
+Pred <- seq(1, 10) #Make a vercotr of integer fron 1 to 10. 
+Res <- runif(10)   #generate 10 draws from a randon uniform (0,1) distristribution
+
+#print the random numbers
+print(Res)
+
+```
+
+
+```{r}
+Pred <- seq(1, 10) #Make a vercotr of integer fron 1 to 10. 
+Res <- runif(10)   #generate 10 draws from a randon uniform (0,1) distristribution
+
+#print the random numbers
+print(Res)
+
+```
+
+
+
+##Speaking a little bit about and R script: 
+
+<cntrl><return> runs code by code. and what is the difference with <command><return>

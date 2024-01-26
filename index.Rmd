@@ -1,5 +1,5 @@
 ---
-title: "index"
+title: "Portfolio Computational Biology"
 author: "Daniel Penados-Richter"
 date: "2024-01-24"
 output: html_document
@@ -9,5 +9,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-this is the link for the new file [Link](newfile24Jan2024.html)
+This is the link for the new file [Link](newfile24Jan2024.html)
+
+You could find some notes for code in Rmarkdown. How you use LaTex and code for R: [Link](FristMarkdown26Jan2024.html)
+
+
 
