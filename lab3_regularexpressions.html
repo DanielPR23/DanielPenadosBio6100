@@ -391,8 +391,8 @@ second group <code>(\w{4})\w+</code> which is selecting the first 4
 digits of the second word. Replace with the same as before.</p>
 <p>Ex. 7</p>
 <p>Again, is very similar:
-<code>(\w{3})\w+,(\w{3})\w+,(\d*\.\d),(\d*)</code>. The main chain is to
-just select the fist 3 letter of each word:
+<code>(\w{3})\w+,(\w{3})\w+,(\d*\.\d),(\d*)</code>. The main change is
+select the fist 3 letter of each word:
 <code>(\w{3})\w+,(\w{3})\w+,</code>. Lastly, just replace with:
 <code>\1\2, \4, \3</code>. This will join the to first characters,
 located the 4th separated by a comma, and the theird at the end, also
