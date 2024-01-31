@@ -14,4 +14,6 @@ This is the link for the new file [Link](newfile24Jan2024.html)
 You could find some notes for code in Rmarkdown. How you use LaTex and code for R: [Link](FristMarkdown26Jan2024.html)
 
 
+This is the link for the Homework 3, regular expression: [Link](lab3_regularexpressions.html)
+
 
