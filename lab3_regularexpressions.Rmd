@@ -37,7 +37,7 @@ The expression is very similar: ```(\w)\w+,(\w{4})\w+,(\d*\.\d),(\d*)```. The on
 
 Ex. 7
 
-Again, is very similar: ```(\w{3})\w+,(\w{3})\w+,(\d*\.\d),(\d*)```. The main change is select the fist 3 letter of each word: ```(\w{3})\w+,(\w{3})\w+,```. Lastly, just replace with: ```\1\2, \4, \3```. This will join the to first characters, located the 4th separated by a comma, and the theird at the end, also separated by a comma. 
+Again, is very similar: ```(\w{3})\w+,(\w{3})\w+,(\d*\.\d),(\d*)```. The main change is select the fist 3 letter of each word: ```(\w{3})\w+,(\w{3})\w+,```. Lastly, just replace with: ```\1\2, \4, \3```. This will join the to first characters, located the 4th separated by a comma, and the 3rd at the end, also separated by a comma. 
 
 
 
