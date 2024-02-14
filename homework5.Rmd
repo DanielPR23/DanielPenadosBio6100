@@ -1,5 +1,5 @@
 ---
-title: "Homework5. Matrices, lists, and data frames"
+title: "Homework 5. Matrices, lists, and data frames"
 author: "Daniel Penados-Richter"
 date: "2024-02-14"
 output: html_document
@@ -16,12 +16,12 @@ knitr::opts_chunk$set(echo = TRUE)
 n_dims <- as.integer(runif(1,min=3,max=10))
 typeof(n_dims)
 print(n_dims)
-#Creates a new vector between 1 and the ramdom generated number from before
+#Creates a new vector between 1 and the random generated number from before
 new_vec<-(1:(n_dims^2))
 print(new_vec)
-#Reshuffles las vector
+#Reshuffles last vector
 sample(x=new_vec)
-#Create a matrix with the last vect. Is a square matrix, becouse nrow=n_dims
+#Create a matrix with the last vect. Is a square matrix, because nrow=n_dims
 m<-matrix(data = new_vec, nrow = n_dims)
 print(m)
 
@@ -77,13 +77,14 @@ what is the data type of this vector?
 
 my_list<-list(my_matrix[2,2], my_logical[2], my_letters[2])
 print(my_list)
+#Typeof to verify which type of object. The [[]] are used to determine the object within the list. 
 typeof(my_list[[1]])#It is a double
 typeof(my_list[[2]])#It is logical
 typeof(my_list[[3]])#it is a character
 
 new_vector<-c(my_list[[1]], my_list[[2]], my_list[[3]])
-typeof(new_vector) #Its a character
-print(new_vector)
+typeof(new_vector) #Its a character. Because character is the one with higher herarqui in the vecttos. 
+print(new_vector) #Note that the number and letter are in "" becouse they are characters. 
 ```
 
 3. Create a data frame with the two variables (= columns) and 26 cases (= rows) below:
@@ -100,7 +101,7 @@ my_unis <- as.integer(runif(26,min=0,max=10))
 my_letters <- sample(LETTERS)
 #Convert in data frame
 my_df <-data.frame(my_unis, my_letters)
-#Will create a new data frame replacing the variable my_unis to the same variable replacing for random numbers to NA
+#Will create a new data frame replacing the variable my_unis to the same variable replacing four random numbers to NA
 my_df<-data.frame(my_unis=replace(my_unis, sample(my_unis, size=4), NA), my_letters)
 
 #Print which values are missing
@@ -109,9 +110,10 @@ print(which(is.na(my_df)))
 #order my_df by my_letters alphabetical order
 my_df2 <- my_df[order(my_df$my_letters),]
 
-#Print the mean of my_unis of the data frame my_df, omiting NA values. 
+#Print the mean of my_unis of the data frame my_df, omitting NA values. 
 print(mean(my_df2$my_unis, na.rm = TRUE))
-
+#Not committing NA values. Does not work. :(
+print(mean(my_df2$my_unis, na.rm = FALSE))
 
 
    

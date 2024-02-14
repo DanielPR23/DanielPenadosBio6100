@@ -18,4 +18,4 @@ This is the link for the Homework 3, regular expression: [Link](lab3_regularexpr
 
 This is the link for Homework 4, Atomic Vectors: [Link](Homework4.DanielPenado.html)
 
-This is the link for Homwork 4. Matrices, lists, and data frames: [Link](Homework5.html)
+This is the link for Homework 5. Matrices, lists, and data frames: [Link](Homework5.html)
