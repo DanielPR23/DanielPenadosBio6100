@@ -1,0 +1,121 @@
+---
+title: "Homework5. Matrices, lists, and data frames"
+author: "Daniel Penados-Richter"
+date: "2024-02-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Assign to the variable n_dims a single random integer between 3 and 10.
+
+```{r}
+#Create one random integer number between 3 and 10
+n_dims <- as.integer(runif(1,min=3,max=10))
+typeof(n_dims)
+print(n_dims)
+#Creates a new vector between 1 and the ramdom generated number from before
+new_vec<-(1:(n_dims^2))
+print(new_vec)
+#Reshuffles las vector
+sample(x=new_vec)
+#Create a matrix with the last vect. Is a square matrix, becouse nrow=n_dims
+m<-matrix(data = new_vec, nrow = n_dims)
+print(m)
+
+#Transpose with t()
+m_matrix<-t(m)
+print(m_matrix)
+
+#Sum and mean teh first row
+print(sum(m_matrix[1,]))
+print(mean(m_matrix[1,]))
+
+#Sum and mean the very last row. 
+print(sum(m_matrix[n=n_dims,]))
+print(mean(m_matrix[n=n_dims,]))
+
+
+#Coverts the matrix en eigen values
+m_eigen<-eigen(m_matrix, only.values = TRUE)
+print(m_eigen)
+
+typeof(m_eigen) #They are a list of variables
+
+```
+
+
+2. Create a list with the following named elements:
+my_matrix, which is a 4 x 4 matrix filled with random uniform values
+my_logical which is a 100-element vector of TRUE or FALSE values. Do this efficiently by setting up a vector of random values and then applying an inequality to it.
+my_letters, which is a 26-element vector of all the lower-case letters in random order.
+
+
+```{r}
+
+my_matrix<-matrix(runif(16), nrow = 4)
+print(my_matrix)
+
+my_logical<-(runif(100)>.5)
+print(my_logical)
+
+.<-letters
+my_letters<-sample(.)
+print(my_letters)
+```
+
+Then, complete the following steps:
+
+create a new list, which has the element[2,2] from the matrix, the second element of the logical vector, and the second element of the letters vector.
+use the typeof() function to confirm the underlying data types of each component in this list
+combine the underlying elements from the new list into a single atomic vector with the c() function.
+what is the data type of this vector?
+
+```{r}
+
+my_list<-list(my_matrix[2,2], my_logical[2], my_letters[2])
+print(my_list)
+typeof(my_list[[1]])#It is a double
+typeof(my_list[[2]])#It is logical
+typeof(my_list[[3]])#it is a character
+
+new_vector<-c(my_list[[1]], my_list[[2]], my_list[[3]])
+typeof(new_vector) #Its a character
+print(new_vector)
+```
+
+3. Create a data frame with the two variables (= columns) and 26 cases (= rows) below:
+-call the first variable my_unis and fill it with 26 random uniform values from 0 to 10
+-call the second variable my_letters and fill it with 26 capital letters in random order.
+-for the first variable, use a single line of code in R to select 4 random rows and replace the numerical values in those rows with NA.
+-for the first variable, write a single line of R code to identify which rows have the missing values.
+-re-order the entire data frame to arrange the second variable in alphabetical order
+-calculate the column mean for the first variable.K
+
+```{r}
+#Create the variables
+my_unis <- as.integer(runif(26,min=0,max=10))
+my_letters <- sample(LETTERS)
+#Convert in data frame
+my_df <-data.frame(my_unis, my_letters)
+#Will create a new data frame replacing the variable my_unis to the same variable replacing for random numbers to NA
+my_df<-data.frame(my_unis=replace(my_unis, sample(my_unis, size=4), NA), my_letters)
+
+#Print which values are missing
+print(which(is.na(my_df)))
+
+#order my_df by my_letters alphabetical order
+my_df2 <- my_df[order(my_df$my_letters),]
+
+#Print the mean of my_unis of the data frame my_df, omiting NA values. 
+print(mean(my_df2$my_unis, na.rm = TRUE))
+
+
+
+   
+
+
+
+```
