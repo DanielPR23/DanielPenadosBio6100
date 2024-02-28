@@ -1,0 +1,150 @@
+---
+title: "Homework7. Testing Hyphotesis"
+author: "Daniel Penados-Richter"
+date: "2024-02-28"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+ 
+
+### Lets start practicing an anova with a random data generator. For 4 groups. 
+
+```{r}
+nGroup <- 4 # number of treatment groups
+nName <- c("Cntrl","Treat1", "Treat2", "Treat3") # names of groups
+nSize <- c(12,17,9,12) # number of observations in each group
+nMean <- c(40,41,60,59) # mean of each group
+nSD <- c(5,5,5,5) # standardd deviation of each group
+
+ID <- 1:(sum(nSize)) # id vector for each row
+resVar <- c(rnorm(n=nSize[1],mean=nMean[1],sd=nSD[1]),
+            rnorm(n=nSize[2],mean=nMean[2],sd=nSD[2]),
+            rnorm(n=nSize[3],mean=nMean[3],sd=nSD[3]),
+            rnorm(n=nSize[4],mean=nMean[4],sd=nSD[4]))
+Groups <- rep(nName,nSize)
+DataFrame <- data.frame(ID,Groups,resVar)
+str(DataFrame)
+head(DataFrame)
+```
+
+#### As you can see we have 4 groups so we will evalute the difference between groups using an ANOVA.
+
+```{r}
+
+aov.data <- aov(resVar~Groups,data=DataFrame)
+print(aov.data)
+print(summary(aov.data))
+
+```
+
+### We have a according to the Pr(>F) (p value) there is a significant difference among groups. 
+
+## Now lets graph it!
+
+```{r}
+my_plot <- ggplot(data=DataFrame,aes(x=Groups,y=resVar))+
+           geom_boxplot()
+print(my_plot)
+
+```
+Loking at the graph. We are pretty confidence that there is a significant difference among groups. Therefore is possible to hyphotesis that the different groups are Treat2 and Treat3 compare to control and Treat1. But we will need to perform a post-Hoc test to adress this. 
+
+
+## What happen if we derecese the sample size? All variable will have an n=3
+
+```{r, echo=FALSE}
+
+nSize <- c(3,3,3,3) # number of observations in each group
+nMean <- c(40,41,60,59) # mean of each group
+nSD <- c(5,5,5,5) # standardd deviation of each group
+
+ID <- 1:(sum(nSize)) # id vector for each row
+resVar <- c(rnorm(n=nSize[1],mean=nMean[1],sd=nSD[1]),
+            rnorm(n=nSize[2],mean=nMean[2],sd=nSD[2]),
+            rnorm(n=nSize[3],mean=nMean[3],sd=nSD[3]),
+            rnorm(n=nSize[4],mean=nMean[4],sd=nSD[4]))
+Groups <- rep(nName,nSize)
+DataFrame <- data.frame(ID,Groups,resVar)
+
+aov.data <- aov(resVar~Groups,data=DataFrame)
+print(summary(aov.data))
+
+```
+
+#### There is still a significant difference. Mainnly becouse the means are very different. But waht if they are not? 
+
+```{r, echo=FALSE}
+nMean <- c(40,41,45,46) # mean of each group
+nSD <- c(5,5,5,5) # standardd deviation of each group
+
+ID <- 1:(sum(nSize)) # id vector for each row
+resVar <- c(rnorm(n=nSize[1],mean=nMean[1],sd=nSD[1]),
+            rnorm(n=nSize[2],mean=nMean[2],sd=nSD[2]),
+            rnorm(n=nSize[3],mean=nMean[3],sd=nSD[3]),
+            rnorm(n=nSize[4],mean=nMean[4],sd=nSD[4]))
+Groups <- rep(nName,nSize)
+DataFrame <- data.frame(ID,Groups,resVar)
+
+aov.data <- aov(resVar~Groups,data=DataFrame)
+print(summary(aov.data))
+
+```
+Now there is no Significant difference. Lets try to increase the sample size again, keeping the same means. 
+
+
+```{r, echo=FALSE}
+
+nSize <- c(50, 54, 60, 57) # number of observations in each group
+nMean <- c(40,41,60,59) # mean of each group
+nSD <- c(5,5,5,5) # standardd deviation of each group
+
+ID <- 1:(sum(nSize)) # id vector for each row
+resVar <- c(rnorm(n=nSize[1],mean=nMean[1],sd=nSD[1]),
+            rnorm(n=nSize[2],mean=nMean[2],sd=nSD[2]),
+            rnorm(n=nSize[3],mean=nMean[3],sd=nSD[3]),
+            rnorm(n=nSize[4],mean=nMean[4],sd=nSD[4]))
+Groups <- rep(nName,nSize)
+DataFrame <- data.frame(ID,Groups,resVar)
+
+aov.data <- aov(resVar~Groups,data=DataFrame)
+print(summary(aov.data))
+
+```
+### We have a significance difference again. Meaning that when the means are very different a small sample size will be enough to evidence the difference. But the smaller the difference, you will need to increase the sample size, to actually evidence a difference. 
+
+#### Side Note: Be careful, this does not mean that just becouse we increase our sample size, we are always going to evidence a sigfificant difference. 
+
+
+## Now lets try the same but with real data. 
+### Testing hyphtesis with my data. Were we evaluate the importance of seven intracellular tyrosine of DCBLD2, for its phposphorylation driven by PDGFR. 
+
+### For this we have two group. DCBLD2 WT and Mutant DCBLD Y7F (Seven intracellular Y mutated to F).
+
+```{r}
+my_data<-read.table("Homework7.csv", header = TRUE, sep = ",")
+head(my_data)
+```
+As you can see, I have 2 variable, therefore I will performe a t test to evaluate if there is a significant difference between the two groups. 
+
+```{r}
+T.data <- t.test(pyfold~Treatment,data=my_data)
+print(T.data)
+print(summary(aov.data))
+```
+#### There is a significant difference between groups. Lets graph this. 
+
+```{r}
+my_plot <- ggplot(data=my_data,aes(x=Treatment,y=pyfold))+
+           geom_boxplot()
+print(my_plot)
+
+
+```
+
+
+The results evidence a significant lower phosphorylation signal on the Y7F mutant. Highlighting the importance of this 7 intracellular tyrosines for the DCBLD2 phosphorylation driven by PDGFR. 

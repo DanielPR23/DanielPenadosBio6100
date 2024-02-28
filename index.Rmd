@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This is the link for the new file [Link](newfile24Jan2024.html)
+
 
 You could find some notes for code in Rmarkdown. How you use LaTex and code for R: [Link](FristMarkdown26Jan2024.html)
 
@@ -22,3 +22,4 @@ This is the link for Homework 5, Matrices, lists, and data frames [Link](homewor
 
 This is the link for Homework 6, Probability Distributions: [Link](Homework6.html)
 
+This is the link for Homework 7, Experimental Designs: [Link](Homework7.html)
