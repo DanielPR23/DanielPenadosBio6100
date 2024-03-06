@@ -44,7 +44,7 @@ print(summary(aov.data))
 
 ### We have a according to the Pr(>F) (p value) there is a significant difference among groups. 
 
-## Now lets graph it!
+### Now lets graph it!
 
 ```{r}
 my_plot <- ggplot(data=DataFrame,aes(x=Groups,y=resVar))+
@@ -55,7 +55,7 @@ print(my_plot)
 Loking at the graph. We are pretty confidence that there is a significant difference among groups. Therefore is possible to hyphotesis that the different groups are Treat2 and Treat3 compare to control and Treat1. But we will need to perform a post-Hoc test to adress this. 
 
 
-## What happen if we derecese the sample size? All variable will have an n=3
+### What happen if we derecese the sample size? All variable will have an n=3
 
 ```{r, echo=FALSE}
 
@@ -76,7 +76,7 @@ print(summary(aov.data))
 
 ```
 
-#### There is still a significant difference. Mainnly becouse the means are very different. But waht if they are not? 
+### There is still a significant difference. Mainnly becouse the means are very different. But waht if they are not? 
 
 ```{r, echo=FALSE}
 nMean <- c(40,41,45,46) # mean of each group
@@ -115,15 +115,15 @@ aov.data <- aov(resVar~Groups,data=DataFrame)
 print(summary(aov.data))
 
 ```
-### We have a significance difference again. Meaning that when the means are very different a small sample size will be enough to evidence the difference. But the smaller the difference, you will need to increase the sample size, to actually evidence a difference. 
 
-#### Side Note: Be careful, this does not mean that just becouse we increase our sample size, we are always going to evidence a sigfificant difference. 
+We have a significance difference again. Meaning that when the means are very different a small sample size will be enough to evidence the difference. But the smaller the difference, you will need to increase the sample size, to actually evidence a difference. 
 
+Side Note: Be careful, this does not mean that just becouse we increase our sample size, we are always going to evidence a sigfificant difference. 
 
-## Now lets try the same but with real data. 
-### Testing hyphtesis with my data. Were we evaluate the importance of seven intracellular tyrosine of DCBLD2, for its phposphorylation driven by PDGFR. 
+Now lets try the same but with real data. 
+Testing hyphtesis with my data. Were we evaluate the importance of seven intracellular tyrosine of DCBLD2, for its phposphorylation driven by PDGFR. 
 
-### For this we have two group. DCBLD2 WT and Mutant DCBLD Y7F (Seven intracellular Y mutated to F).
+For this we have two group. DCBLD2 WT and Mutant DCBLD Y7F (Seven intracellular Y mutated to F).
 
 ```{r}
 my_data<-read.table("Homework7.csv", header = TRUE, sep = ",")
@@ -136,7 +136,7 @@ T.data <- t.test(pyfold~Treatment,data=my_data)
 print(T.data)
 print(summary(aov.data))
 ```
-#### There is a significant difference between groups. Lets graph this. 
+### There is a significant difference between groups. Lets graph this. 
 
 ```{r}
 my_plot <- ggplot(data=my_data,aes(x=Treatment,y=pyfold))+

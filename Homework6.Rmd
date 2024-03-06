@@ -44,6 +44,7 @@ p1 <-  p1 +  geom_density(linetype="dotted",size=0.75)
 print(p1)
 
 ```
+
 ### Now lets get maximum likelihood parameters for normal
 
 ```{r, message=FALSE, warning=FALSE}
@@ -68,6 +69,9 @@ xval <- seq(0,max(z$myVar),len=length(z$myVar))
 
 
 ```
+
+It is possible to predict that the data does not follow a normal distribution (Red). It is definitely skew to the left, meaning that the density of values is higher for the lower values. 
+
 ### Plot exponential probability density
 
 ```{r, message=FALSE, warning=FALSE}
@@ -79,6 +83,8 @@ stat2 <- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour="blue", n = 
 
 ```
 
+The exponential predicted curve (Blue) fits more to our data in contrast to normal distribution. Denietly the negative exponential model proposed higher density in the lower values range of the graph. 
+
 ### Plot uniform probability density
 ```{r, message=FALSE, warning=FALSE}
 stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen", n = length(z$myVar), args = list(min=min(z$myVar), max=max(z$myVar)))
@@ -87,7 +93,10 @@ stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen"
 ```
  
  
- ### Plot gamma probability density
+ The uniform probability reflect (Brown) that each value has the same possibility to apear in our data set. That is denietly not matching our data distribution. with moro density in the lower values range of the graph. 
+ 
+ 
+### Plot gamma probability density
  
  ```{r, message=FALSE, warning=FALSE}
  
@@ -100,7 +109,9 @@ stat4 <- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour="brown", n
  
  ```
 
- ### Plot beta probability density
+The gamma distribution is a type of normal distribution (Green), skew to the left side of the graph. Is use to model the continuous variable that should have a positive and skewed distribution, as our data. Therefore is possible to conclude that our randomize data has a gamma positive distribution. 
+
+### Plot beta probability density
  ```{r, message=FALSE, warning=FALSE}
 pSpecial <- ggplot(data=z, aes(x=myVar/(max(myVar + 0.1)), y=..density..)) +
   geom_histogram(color="grey60",fill="cornsilk",size=0.2) + 
@@ -114,7 +125,12 @@ shape2ML <- betaPars$estimate["shape2"]
 statSpecial <- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour="orchid", n = length(z$myVar), args = list(shape1=shape1ML,shape2=shape2ML))
 print(pSpecial + statSpecial)
 ```
-#Now lets play with real data
+
+Both, Gamma and Beta (Purple) distributions adapt perfectly to our model . This is because a beta distribution is based on a gamma distribution with modified shape, therefore the model could adapt to the shape of our data distribution. 
+
+# Now lets play with real data
+
+The data represent multiple organic matter values, measure in grams,of our samples, across our site of study. 
  
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
@@ -130,7 +146,11 @@ p1<-ggplot(z, aes(x=myVar, y=after_stat(density))) +
   geom_histogram(color="green", fill="cornsilk", size=0.2)
 p1
 ```
-We plot for a histogram to evaluate the distribution of the organic matter found in the soil. Were we will plot for different possible distribution and evalute the one that fits the best. 
+
+We plot for a histogram to evaluate the distribution of the organic matter found in the soil. Were we will plot for different possible distribution and evaluate the one that fits the best. At the moment the higher density of the data is found close to the mean. Therefore, is possible to predict that our data will fit a normal distribution. 
+
+But, lets plot for the probability distribution to answer this question. 
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 normPars <- fitdistr(z$myVar,"normal")
 print(normPars)
@@ -181,3 +201,14 @@ pSpecial + statSpecial
 ```
 
 
+Starting for which probabiliy density does not fit our data distribution. 
+
+Exponential (Blue): Definetly our data does not have higer density for values of 0 a 1, there fore could not be exponential. 
+
+Uniform (green): Uniform represent a model in which every value has the same chance to appear. This is not the distribution or our data, there is definitely higher density in some regions of the graph. 
+
+Gamma (Brown): Gamma is a type of normal distribution, so it looks similar to our data. But our data is not skew to the left at it should behave a gamma distribution. 
+
+Lastly, the normal distribution (Red), is the one that mostly fits the model. With the higer density of values close to the mean. In comparation, the beta distribution (Purple), since is a type of normal distribution also adapts to our model, showing how the data skew a little to the higher values of the graph. 
+
+In conclusion, the model that best fits our data is a normal distribution. 
