@@ -386,15 +386,16 @@ glimpse(iris)</code></pre>
 <p>iris has 5 variables, and 150 observations.</p>
 <ol start="2" style="list-style-type: decimal">
 <li>Create a new data frame iris1 that contains only the species
-virginica and versicolor with sepal lengths longer than 6 cm and sepal
-widths longer than 2.5 cm. How many observations and variables are in
-the data set?</li>
+<code>virginica</code> and <code>versicolor</code> with sepal lengths
+longer than 6 cm and sepal widths longer than 2.5 cm. How many
+observations and variables are in the data set?</li>
 </ol>
 <pre class="r"><code>iris1&lt;-filter(iris, Sepal.Width&gt;2.5, Sepal.Length&gt;6)%&gt;%
   filter(Species %in% c(&quot;virginica&quot;, &quot;versicolor&quot;))</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li>Now, create a iris2 data frame from iris1 that contains only the
-columns for Species, Sepal.Length, and Sepal.Width. How many
+<li>Now, create a <code>iris2</code> data frame from <code>iris1</code>
+that contains only the columns for
+<code>Species, Sepal.Length, and Sepal.Width</code>. How many
 observations and variables are in the data set?</li>
 </ol>
 <pre class="r"><code>iris2&lt;-select(iris1, Species, Sepal.Length, Sepal.Width)
@@ -406,9 +407,9 @@ glimpse(iris2)</code></pre>
 ## $ Sepal.Width  &lt;dbl&gt; 3.2, 3.2, 3.1, 2.8, 3.3, 2.9, 2.9, 3.1, 2.8, 2.8, 2.9, 3.…</code></pre>
 <p>It has 56 obervations.</p>
 <ol start="4" style="list-style-type: decimal">
-<li>Create an iris3 data frame from iris2 that orders the observations
-from largest to smallest sepal length. Show the first 6 rows of this
-data set.</li>
+<li>Create an <code>iris3</code> data frame from <code>iris2</code> that
+orders the observations from largest to smallest sepal length. Show the
+first 6 rows of this data set.</li>
 </ol>
 <pre class="r"><code>iris3&lt;-arrange(iris2, by = Sepal.Length)
 head(iris3)</code></pre>

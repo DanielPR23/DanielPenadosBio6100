@@ -22,7 +22,7 @@ glimpse(iris)
 
 iris has 5 variables, and 150 observations. 
 
-2. Create a new data frame iris1 that contains only the species virginica and versicolor with sepal lengths longer than 6 cm and sepal widths longer than 2.5 cm. How many observations and variables are in the data set?
+2. Create a new data frame iris1 that contains only the species ```virginica``` and ```versicolor``` with sepal lengths longer than 6 cm and sepal widths longer than 2.5 cm. How many observations and variables are in the data set?
 
 ```{r}
 iris1<-filter(iris, Sepal.Width>2.5, Sepal.Length>6)%>%
@@ -30,7 +30,7 @@ iris1<-filter(iris, Sepal.Width>2.5, Sepal.Length>6)%>%
 
 ```
 
-3. Now, create a iris2 data frame from iris1 that contains only the columns for Species, Sepal.Length, and Sepal.Width. How many observations and variables are in the data set?
+3. Now, create a ```iris2``` data frame from ```iris1``` that contains only the columns for ```Species, Sepal.Length, and Sepal.Width```. How many observations and variables are in the data set?
 
 ```{r}
 iris2<-select(iris1, Species, Sepal.Length, Sepal.Width)
@@ -39,7 +39,7 @@ glimpse(iris2)
 
 It has 56 obervations. 
 
-4. Create an iris3 data frame from iris2 that orders the observations from largest to smallest sepal length. Show the first 6 rows of this data set.
+4. Create an ```iris3``` data frame from ```iris2``` that orders the observations from largest to smallest sepal length. Show the first 6 rows of this data set.
 
 ```{r}
 iris3<-arrange(iris2, by = Sepal.Length)
