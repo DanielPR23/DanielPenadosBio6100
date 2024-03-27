@@ -24,4 +24,7 @@ This is the link for Homework 6, Probability Distributions: [Link](Homework6.htm
 
 This is the link for Homework 7, Experimental Designs: [Link](Homework7.html)
 
-This is the link for Homework 8, Experimental Designs: [Link](Homework8.html)
+This is the link for Homework 8, dlpyr: [Link](Homework8.html)
+
+This is the link for Homework 9, Structure Programmin: [Link](Homework9.html). You could also find the function [here](Homework9_Functions.html)
+
