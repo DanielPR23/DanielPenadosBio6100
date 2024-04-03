@@ -62,12 +62,17 @@ generate_random_data <- function(n_groups=4, n_obs_min=25, n_obs_max=100, mean_m
 ```
 
 ```{r, include=FALSE}
+#################################################
+#Funtion name: Suffle_response
+#Function. basicaly suffles the values of any data set, the of column name value, independently of other colums. 
+#Calculte the mean for each group after shuffling. 
+#output. Vector of means of each group. 
 shuffle_response <- function(data) {
   data$Value <- sample(data$Value) 
   mean_df <- aggregate(Value ~ Group, data = data, FUN = mean)
   return(mean_df$Value)
 }
-
+#----------------------------------------------------
 ```
 
 

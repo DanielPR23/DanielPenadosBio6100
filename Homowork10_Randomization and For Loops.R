@@ -67,3 +67,13 @@ mean_df <- aggregate(value ~ group, data = df, FUN = mean)
 print(mean_df)
 
 
+
+shuffle_response <- function(data) {
+  data$value <- sample(data$value) 
+  mean_df <- aggregate(value ~ group, data = data, FUN = mean)
+  return(mean_df$value)  # Return the vector of group means
+}
+
+
+
+
