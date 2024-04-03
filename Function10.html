@@ -11,9 +11,9 @@
 
 <meta name="author" content="Daniel Penados-Richter" />
 
-<meta name="date" content="2024-01-24" />
+<meta name="date" content="2024-04-03" />
 
-<title>Portfolio Computational Biology</title>
+<title>Function10.</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,23 +350,68 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Portfolio Computational Biology</h1>
+<h1 class="title toc-ignore">Function10.</h1>
 <h4 class="author">Daniel Penados-Richter</h4>
-<h4 class="date">2024-01-24</h4>
+<h4 class="date">2024-04-03</h4>
 
 </div>
 
 
-<p>You could find some notes for code in Rmarkdown. How you use LaTex
-and code for R: <a href="FristMarkdown26Jan2024.html">Link</a></p>
-<p>This is the link for the Homework 3, regular expression: <a href="lab3_regularexpressions.html">Link</a></p>
-<p>This is the link for Homework 4, Atomic Vectors: <a href="Homework4.DanielPenado.html">Link</a></p>
-<p>This is the link for Homework 5, Matrices, lists, and data frames <a href="homework5.html">Link</a></p>
-<p>This is the link for Homework 6, Probability Distributions: <a href="Homework6.html">Link</a></p>
-<p>This is the link for Homework 7, Experimental Designs: <a href="Homework7.html">Link</a></p>
-<p>This is the link for Homework 8, dlpyr: <a href="Homework8.html">Link</a></p>
-<p>This is the link for Homework 9, Structure Programming: <a href="Homework9.html">Link</a>. You could also find the function <a href="Homework9_Functions.html">here</a></p>
-<p>This is the link for Homework 10, For Loops and Randomization : <a href="Homework10.html">Link</a>. You can find the functions in <a href="Function10.html">here</a></p>
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE)
+##############################################
+#Function name: Matrix Function 
+#Use two variables rows and col. 
+#First create a matrix (x) fill with 0 values with the correct number of rows, and cols, according to the variables. 
+#Second create to for loops to fill up the matrix x. This for loop will loop in i in the first column and nrowX. Then will loop in j to select first row and ncol in x. lastly, will take the values i and j and will create a value multiplying both. 
+matrix_function &lt;- function(rows, cols) {
+  x&lt;-matrix(rep(0, rows*cols), nrow = rows, ncol = cols)
+  for (i in 1:nrow(x)) {
+    for (j in 1:ncol(x)) {
+      x[i, j] &lt;- i * j  
+    }
+  }
+  
+  return(x)
+  
+}
+#-------------------------------------------------------------</code></pre>
+<pre class="r"><code>#----------------------------------------------------------------
+
+###################################################################
+#Function name: generate_random_data
+#Use: Create a random generate data using a for loop. 
+#Variables required and predate: n_groups=4, n_obs_min=25, n_obs_max=100, mean_min=12, mean_max=40, sd_min=2, sd_max=5
+#How it works: Itiate with an empty list to store independent df for each group. Second creacte for loop to generate random parameter for each group base on n_groups.
+#Finally combine all dataset in one unique df. 
+
+generate_random_data &lt;- function(n_groups=4, n_obs_min=25, n_obs_max=100, mean_min=12, mean_max=40, sd_min=2, sd_max=5) {
+  group_data &lt;- list()
+  for (i in 1:n_groups) {
+    n_obs &lt;- sample(n_obs_min:n_obs_max, 1)
+    group_mean &lt;- runif(1, mean_min, mean_max)
+    group_sd &lt;- runif(1, sd_min, sd_max)
+    group_data[[i]] &lt;- data.frame(Group = rep(paste0(&quot;Group_&quot;, i), n_obs),
+                                  Value = rnorm(n_obs, mean = group_mean, sd = group_sd))
+  }
+  
+  # Combine data frames for all groups into a single data frame
+  all_data &lt;- do.call(rbind, group_data)
+  
+  return(all_data)
+}
+
+#-----------------------------------------------------------------</code></pre>
+<pre class="r"><code>#################################################
+#Funtion name: Suffle_response
+#Function. basicaly suffles the values of any data set, the of column name value, independently of other colums. 
+#Calculte the mean for each group after shuffling. 
+#output. Vector of means of each group. 
+shuffle_response &lt;- function(data) {
+  data$Value &lt;- sample(data$Value) 
+  mean_df &lt;- aggregate(Value ~ Group, data = data, FUN = mean)
+  return(mean_df$Value)
+}
+#---------------------------------------------------</code></pre>
 
 
 

@@ -26,5 +26,6 @@ This is the link for Homework 7, Experimental Designs: [Link](Homework7.html)
 
 This is the link for Homework 8, dlpyr: [Link](Homework8.html)
 
-This is the link for Homework 9, Structure Programmin: [Link](Homework9.html). You could also find the function [here](Homework9_Functions.html)
+This is the link for Homework 9, Structure Programming: [Link](Homework9.html). You could also find the function [here](Homework9_Functions.html)
 
+This is the link for Homework 10, For Loops and Randomization : [Link](Homework10.html). You can find the functions in [here](Function10.html)

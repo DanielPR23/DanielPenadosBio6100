@@ -1,0 +1,163 @@
+---
+title: "Homework10 For Loops and Randomization"
+author: "Daniel Penados-Richter"
+date: "2024-04-03"
+output: html_document
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+##############################################
+#Function name: Matrix Function 
+#Use two variables rows and col. 
+#First create a matrix (x) fill with 0 values with the correct number of rows, and cols, according to the variables. 
+#Second create to for loops to fill up the matrix x. This for loop will loop in i in the first column and nrowX. Then will loop in j to select first row and ncol in x. lastly, will take the values i and j and will create a value multiplying both. 
+matrix_function <- function(rows, cols) {
+  x<-matrix(rep(0, rows*cols), nrow = rows, ncol = cols)
+  for (i in 1:nrow(x)) {
+    for (j in 1:ncol(x)) {
+      x[i, j] <- i * j  
+    }
+  }
+  
+  return(x)
+  
+}
+#-------------------------------------------------------------
+```
+
+```{r include=FALSE}
+#----------------------------------------------------------------
+
+###################################################################
+#Function name: generate_random_data
+#Use: Create a random generate data using a for loop. 
+#Variables required and predate: n_groups=4, n_obs_min=25, n_obs_max=100, mean_min=12, mean_max=40, sd_min=2, sd_max=5
+#How it works: Itiate with an empty list to store independent df for each group. Second creacte for loop to generate random parameter for each group base on n_groups.
+#Finally combine all dataset in one unique df. 
+
+generate_random_data <- function(n_groups=4, n_obs_min=25, n_obs_max=100, mean_min=12, mean_max=40, sd_min=2, sd_max=5) {
+  group_data <- list()
+  for (i in 1:n_groups) {
+    n_obs <- sample(n_obs_min:n_obs_max, 1)
+    group_mean <- runif(1, mean_min, mean_max)
+    group_sd <- runif(1, sd_min, sd_max)
+    group_data[[i]] <- data.frame(Group = rep(paste0("Group_", i), n_obs),
+                                  Value = rnorm(n_obs, mean = group_mean, sd = group_sd))
+  }
+  
+  # Combine data frames for all groups into a single data frame
+  all_data <- do.call(rbind, group_data)
+  
+  return(all_data)
+}
+
+#-----------------------------------------------------------------
+
+```
+
+```{r, include=FALSE}
+shuffle_response <- function(data) {
+  data$Value <- sample(data$Value) 
+  mean_df <- aggregate(Value ~ Group, data = data, FUN = mean)
+  return(mean_df$Value)
+}
+
+```
+
+
+1. Using a for loop, write a function to calculate the number of zeroes in a numeric vector. Before entering the loop, set up a counter variable counter <- 0. Inside the loop, add 1 to counter each time you have a zero in the vector. Finally, use return(counter) for the output.
+
+2. Use subsetting instead of a loop to rewrite the function as a single line of code.
+
+```{r}
+#Vector
+x <- c(1, 0, 5, 0, 0, 8, 9, 0, 3, 0)
+#for loop to count 0's
+counter <- 0
+for (i in x) {
+  if (i == 0) {
+    counter <- counter + 1 
+  }
+}
+
+print(counter)
+
+#another for, simpler using subsetting. 
+
+print(sum(x == 0))
+
+```
+
+3. Write a function that takes as input two integers representing the number of rows and columns in a matrix. The output is a matrix of these dimensions in which each element is the product of the row number x the column number.
+
+```{r}
+rows <- 3
+cols <- 4
+matrix1 <- matrix_function(rows, cols)
+print(matrix1)
+
+```
+4a. Simulate a dataset with 3 groups of data, each group drawn from a distribution with a different mean. The final data frame should have 1 column for group and 1 column for the response variable.
+
+4b. Write a custom function that 1) reshuffles the response variable, and 2) calculates the mean of each group in the reshuffled data. Store the means in a vector of length 3.
+
+4c. Use a for loop to repeat the function in b 100 times. Store the results in a data frame that has 1 column indicating the replicate number and 1 column for each new group mean, for a total of 4 columns.
+
+4d. Use qplot() to create a histogram of the means for each reshuffled group. Or, if you want a challenge, use ggplot() to overlay all 3 histograms in the same figure. How do the distributions of reshuffled means compare to the original means?
+
+```{r}
+
+#Using my function generate_random_data to create a group 3 with different means, N's, and CV's. Dataframe in a long vertion. 
+my_data<-generate_random_data(n_groups = 3)
+head(my_data)
+
+w<-ggplot(my_data, aes(x = Group, y = Value)) +
+  geom_boxplot() +
+  labs(x = "Group", y = "Value")
+print(w)
+
+#shuffle my data and print the mean of each group in a vector. 
+
+shuffle_mean<-shuffle_response(my_data)
+print(shuffle_mean)
+
+#Repeat this 100 times, and store in a new data frame 
+
+# Number of iterations
+N <- 100
+
+#New df, with a first column = to n_interations, second a 3 row matrix filled with NA values for every interation. 
+my_results <- data.frame(iteration = 1:N, matrix(NA, nrow = N, ncol = 3))
+#Change column names from column 2 to 4. 
+colnames(my_results)[-1] <- c("Group_1", "Group_2", "Group_3")
+head(my_results)
+
+# Repeat the function 100 times and store the results
+for (i in 1:N) { # repeat funtion in i N number of times. 
+  values <- shuffle_response(my_data) 
+  my_results[i, -1] <- values #store vector results in column 2 to 4. 
+}
+glimpse(my_results)
+
+#create a boxplot
+new_resuls <- my_results[, c("Group_1", "Group_2", "Group_3")]
+
+#convert to long version for ggplot. 
+long_results <- pivot_longer(new_resuls, cols = starts_with("Group"), names_to = "Group", values_to = "Value")
+head(long_results)  
+
+x<-ggplot(long_results, aes(x = Group, y = Value)) +
+  geom_boxplot() +
+  labs(x = "Group", y = "Value")
+print(x)
+```
+
+Comparing the results of the original data set ```my_data```, and the shuffle one. Since the first random generate data set, ```my_data``` will shown different mean values for each group. When we shuffle the values, it is possible that the means become similar. This becouse shuffle function, mixes tha ```Values``` independently from each group. Creating a more homgeneaus mean among groups. 
+
+

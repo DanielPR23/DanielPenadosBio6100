@@ -1,0 +1,73 @@
+---
+title: "Function10."
+author: "Daniel Penados-Richter"
+date: "2024-04-03"
+output: html_document
+---
+
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+##############################################
+#Function name: Matrix Function 
+#Use two variables rows and col. 
+#First create a matrix (x) fill with 0 values with the correct number of rows, and cols, according to the variables. 
+#Second create to for loops to fill up the matrix x. This for loop will loop in i in the first column and nrowX. Then will loop in j to select first row and ncol in x. lastly, will take the values i and j and will create a value multiplying both. 
+matrix_function <- function(rows, cols) {
+  x<-matrix(rep(0, rows*cols), nrow = rows, ncol = cols)
+  for (i in 1:nrow(x)) {
+    for (j in 1:ncol(x)) {
+      x[i, j] <- i * j  
+    }
+  }
+  
+  return(x)
+  
+}
+#-------------------------------------------------------------
+```
+
+```{r}
+#----------------------------------------------------------------
+
+###################################################################
+#Function name: generate_random_data
+#Use: Create a random generate data using a for loop. 
+#Variables required and predate: n_groups=4, n_obs_min=25, n_obs_max=100, mean_min=12, mean_max=40, sd_min=2, sd_max=5
+#How it works: Itiate with an empty list to store independent df for each group. Second creacte for loop to generate random parameter for each group base on n_groups.
+#Finally combine all dataset in one unique df. 
+
+generate_random_data <- function(n_groups=4, n_obs_min=25, n_obs_max=100, mean_min=12, mean_max=40, sd_min=2, sd_max=5) {
+  group_data <- list()
+  for (i in 1:n_groups) {
+    n_obs <- sample(n_obs_min:n_obs_max, 1)
+    group_mean <- runif(1, mean_min, mean_max)
+    group_sd <- runif(1, sd_min, sd_max)
+    group_data[[i]] <- data.frame(Group = rep(paste0("Group_", i), n_obs),
+                                  Value = rnorm(n_obs, mean = group_mean, sd = group_sd))
+  }
+  
+  # Combine data frames for all groups into a single data frame
+  all_data <- do.call(rbind, group_data)
+  
+  return(all_data)
+}
+
+#-----------------------------------------------------------------
+
+```
+
+```{r}
+
+#################################################
+#Funtion name: Suffle_response
+#Function. basicaly suffles the values of any data set, the of column name value, independently of other colums. 
+#Calculte the mean for each group after shuffling. 
+#output. Vector of means of each group. 
+shuffle_response <- function(data) {
+  data$Value <- sample(data$Value) 
+  mean_df <- aggregate(Value ~ Group, data = data, FUN = mean)
+  return(mean_df$Value)
+}
+#---------------------------------------------------
+```
