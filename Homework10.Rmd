@@ -82,7 +82,7 @@ shuffle_response <- function(data) {
 
 ```{r}
 #Vector
-x <- c(1, 0, 5, 0, 0, 8, 9, 0, 3, 0)
+x <- c(0,1,2,3,0,3,7,4,0,4,0,0,0,4)
 #for loop to count 0's
 counter <- 0
 for (i in x) {
