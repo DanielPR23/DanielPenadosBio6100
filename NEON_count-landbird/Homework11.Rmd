@@ -65,7 +65,7 @@ for (i in folders) {
  # begin the loop. Looking to i in files. 
  for (i in files) {
    # I was not able to extract just the year from the file name, this was the closet i got. Deleting all not numeric values
-   #year <- gsub("\\D", "", basename(file))
+   #year <- gsub("\\D", "", basename(i))
    data <- read.csv(i)
    # First in loop, eliminate row with NA values in the columns scientificName
    data <- data[complete.cases(data$scientificName), ]

@@ -427,7 +427,7 @@ species found)</li>
  # begin the loop. Looking to i in files. 
  for (i in files) {
    # I was not able to extract just the year from the file name, this was the closet i got. Deleting all not numeric values
-   #year &lt;- gsub(&quot;\\D&quot;, &quot;&quot;, basename(file))
+   #year &lt;- gsub(&quot;\\D&quot;, &quot;&quot;, basename(i))
    data &lt;- read.csv(i)
    # First in loop, eliminate row with NA values in the columns scientificName
    data &lt;- data[complete.cases(data$scientificName), ]
