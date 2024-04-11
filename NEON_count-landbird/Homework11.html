@@ -11,9 +11,9 @@
 
 <meta name="author" content="Daniel Penados-Richter" />
 
-<meta name="date" content="2024-04-03" />
+<meta name="date" content="2024-04-10" />
 
-<title>Portfolio Computational Biology</title>
+<title>Homework11. Batch Processing.</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,24 +350,191 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Portfolio Computational Biology</h1>
+<h1 class="title toc-ignore">Homework11. Batch Processing.</h1>
 <h4 class="author">Daniel Penados-Richter</h4>
-<h4 class="date">2024-04-03</h4>
+<h4 class="date">2024-04-10</h4>
 
 </div>
 
 
-<p>You could find some notes for code in Rmarkdown. How you use LaTex
-and code for R: <a href="FristMarkdown26Jan2024.html">Link</a></p>
-<p>This is the link for the Homework 3, regular expression: <a href="lab3_regularexpressions.html">Link</a></p>
-<p>This is the link for Homework 4, Atomic Vectors: <a href="Homework4.DanielPenado.html">Link</a></p>
-<p>This is the link for Homework 5, Matrices, lists, and data frames <a href="homework5.html">Link</a></p>
-<p>This is the link for Homework 6, Probability Distributions: <a href="Homework6.html">Link</a></p>
-<p>This is the link for Homework 7, Experimental Designs: <a href="Homework7.html">Link</a></p>
-<p>This is the link for Homework 8, dlpyr: <a href="Homework8.html">Link</a></p>
-<p>This is the link for Homework 9, Structure Programming: <a href="Homework9.html">Link</a>. You could also find the function <a href="Homework9_Functions.html">here</a></p>
-<p>This is the link for Homework 10, For Loops and Randomization : <a href="Homework10.html">Link</a>. You can find the functions in <a href="Function10.html">here</a></p>
-<p>This is the link for Homework 11, Batch Processing: <a href="NEON_count-landbird/Homework11.html">Link</a>.</p>
+<p>To start, go to this link and scroll down to “Download Data”. From
+there, Sort by Site to download the “BART” dataset for years 2013-2023.
+In this compressed folder, you should see a list of six folders
+organized by year in the file name. Store that for now somewhere on your
+desktop.</p>
+<p>From there, follow the instructions from last week’s lectures on
+barracudar functions to create a new project, storing the dataset in a
+“Original Data” folder.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Within each year’s folder, you will only be using a file from each
+year labeled “countdata” in its title. Using for loops, iterate through
+each year’s folders to gather the file names of these “countdata” .csv
+files.</li>
+</ol>
+<pre class="r"><code>#First Create a directory path. 
+directory_path &lt;- &quot;/Users/danielpr23/Desktop/Computational Biology/DanielPenadosBio6100/NEON_count-landbird&quot;#Change it to the working directory or were all the folder are. 
+
+#Create a character vector, with the name of the files. This vector will be used, as the search template. 
+folders &lt;- list.dirs(directory_path, full.names = FALSE, recursive = FALSE)
+print(folders)</code></pre>
+<pre><code>## [1] &quot;NEON.D01.BART.DP1.10003.001.2015-06.basic.20240127T000425Z.RELEASE-2024&quot;
+## [2] &quot;NEON.D01.BART.DP1.10003.001.2016-06.basic.20240127T000425Z.RELEASE-2024&quot;
+## [3] &quot;NEON.D01.BART.DP1.10003.001.2017-06.basic.20240127T000425Z.RELEASE-2024&quot;
+## [4] &quot;NEON.D01.BART.DP1.10003.001.2018-06.basic.20240127T000425Z.RELEASE-2024&quot;
+## [5] &quot;NEON.D01.BART.DP1.10003.001.2019-06.basic.20240127T000425Z.RELEASE-2024&quot;
+## [6] &quot;NEON.D01.BART.DP1.10003.001.2020-06.basic.20240127T000425Z.RELEASE-2024&quot;
+## [7] &quot;NEON.D01.BART.DP1.10003.001.2020-07.basic.20240127T000425Z.RELEASE-2024&quot;
+## [8] &quot;NEON.D01.BART.DP1.10003.001.2021-06.basic.20240127T000425Z.RELEASE-2024&quot;
+## [9] &quot;NEON.D01.BART.DP1.10003.001.2022-06.basic.20240127T000425Z.RELEASE-2024&quot;</code></pre>
+<pre class="r"><code># Becouse not all the file are name the same, use regular espression to find them 
+file_pattern &lt;- &quot;NEON.D01.BART.DP1.10003.001.brd_countdata..*\\.csv&quot;  # Adjust the pattern as needed
+
+#I tried to use barracuda funcion add_folder() but I could not make it to work, I found this code online on how to use an if statement, basically does the same. If the folder new_folder does not exist, it creates it. New folder could also be a character vector and create multiple folders. 
+
+destination_folder &lt;- &quot;new_folder&quot;#Choose the name of the folder. The code should be clean, and work either name you choose. 
+
+if (!file.exists(destination_folder)) {
+  dir.create(destination_folder)
+}
+
+# Now lets loop in folders searching for the file_patten
+for (i in folders) {
+  matching_files &lt;- list.files(path = i, pattern = file_pattern, full.names = TRUE)
+  if (length(matching_files) &gt; 0) { #Just an If statement to print a wanning message if the code does not find the file. 
+    for (j in matching_files) { #It needs to be a double loop, now that it founds the file, paste it in destination_folder in this case, new_folder. 
+      file.copy(j, file.path(destination_folder, basename(j)))
+    }
+  } else {
+    cat(&quot;No files matching&quot;, file_pattern, &quot;found in&quot;, folder, &quot;\n&quot;) #Warning message.
+  }
+}
+
+#If it works, files should be storaged in a new folder in your working directory. </code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Starting with pseudo-code, generate functions for 1) Cleaning the
+data for any empty/missing cases, 2) Extract the year from each file
+name, 3) Calculate Abundance for each year (Total number of individuals
+found), 4) Calculate Species Richness for each year(Number of unique
+species found)</li>
+</ol>
+<pre class="r"><code># Set the WD werre the file are. 
+ directory &lt;- &quot;/Users/danielpr23/Desktop/Computational Biology/DanielPenadosBio6100/NEON_count-landbird/new_folder&quot;
+ 
+ # Create a list with the files in the working Directory
+ files &lt;- list.files(directory, pattern = &quot;NEON.D01.BART.DP1.10003.001.brd_countdata..*\\.csv$&quot;, full.names = TRUE)
+ 
+
+ # begin the loop. Looking to i in files. 
+ for (i in files) {
+   # I was not able to extract just the year from the file name, this was the closet i got. Deleting all not numeric values
+   #year &lt;- gsub(&quot;\\D&quot;, &quot;&quot;, basename(file))
+   data &lt;- read.csv(i)
+   # First in loop, eliminate row with NA values in the columns scientificName
+   data &lt;- data[complete.cases(data$scientificName), ]
+
+   # Print results. 
+   cat(&quot;File:&quot;, basename(i), &quot;\n&quot;)
+   cat(&quot;how do you extract the year?&quot;, &quot;\n&quot;)
+   cat(&quot;Abundance:&quot;, nrow(data), &quot;\n&quot;) #Abundance is just the number of rows
+   cat(&quot;Richness:&quot;, length(unique(data$scientificName)), &quot;\n&quot;) #Richness is the number or unique values in the column scientificName
+   cat(&quot;\n&quot;)
+ }</code></pre>
+<pre><code>## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2015-06.basic.20231226T232626Z.csv 
+## how do you extract the year? 
+## Abundance: 454 
+## Richness: 40 
+## 
+## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2016-06.basic.20231227T013428Z.csv 
+## how do you extract the year? 
+## Abundance: 883 
+## Richness: 39 
+## 
+## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2017-06.basic.20231227T094709Z.csv 
+## how do you extract the year? 
+## Abundance: 685 
+## Richness: 35 
+## 
+## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2018-06.basic.20231228T172744Z.csv 
+## how do you extract the year? 
+## Abundance: 772 
+## Richness: 37 
+## 
+## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2019-06.basic.20231227T184129Z.csv 
+## how do you extract the year? 
+## Abundance: 628 
+## Richness: 44 
+## 
+## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2020-06.basic.20231227T224944Z.csv 
+## how do you extract the year? 
+## Abundance: 626 
+## Richness: 46 
+## 
+## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2020-07.basic.20231227T225020Z.csv 
+## how do you extract the year? 
+## Abundance: 89 
+## Richness: 18 
+## 
+## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2021-06.basic.20231228T010546Z.csv 
+## how do you extract the year? 
+## Abundance: 1015 
+## Richness: 50 
+## 
+## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2022-06.basic.20231229T053256Z.csv 
+## how do you extract the year? 
+## Abundance: 699 
+## Richness: 39</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Create an initial empty data frame to hold the above summary
+statistics-you should have 4 columns, one for the file name, one for
+abundance, one for species richness, and one for year.Using a for loop,
+run your created functions as a batch process for each folder, changing
+the working directory as necessary to read in the correct files,
+calculating summary statistics with your created functions, and then
+writing them out into your summary statistics data frame.</li>
+</ol>
+<pre class="r"><code>#Create a new df to store the values 
+results&lt;- data.frame(File = character(),
+                          Abundance = numeric(),
+                          Richness = numeric())
+                        
+
+ 
+ # Loop through each CSV file
+ for (i in files) {
+   data &lt;- read.csv(i)
+   data &lt;- data[complete.cases(data$scientificName), ]
+   
+   # This time, stead of just printing the results, we are going to store them in a new vector 
+   abundance &lt;- nrow(data)
+   richness &lt;- length(unique(data$scientificName))
+   
+   # Use rbind to fill the data frame, always looping in i. 
+   results &lt;- rbind(results, data.frame(File = basename(i),
+                                              Abundance = abundance,
+                                              Richness = richness))
+ }
+
+ print(results)</code></pre>
+<pre><code>##                                                                           File
+## 1 NEON.D01.BART.DP1.10003.001.brd_countdata.2015-06.basic.20231226T232626Z.csv
+## 2 NEON.D01.BART.DP1.10003.001.brd_countdata.2016-06.basic.20231227T013428Z.csv
+## 3 NEON.D01.BART.DP1.10003.001.brd_countdata.2017-06.basic.20231227T094709Z.csv
+## 4 NEON.D01.BART.DP1.10003.001.brd_countdata.2018-06.basic.20231228T172744Z.csv
+## 5 NEON.D01.BART.DP1.10003.001.brd_countdata.2019-06.basic.20231227T184129Z.csv
+## 6 NEON.D01.BART.DP1.10003.001.brd_countdata.2020-06.basic.20231227T224944Z.csv
+## 7 NEON.D01.BART.DP1.10003.001.brd_countdata.2020-07.basic.20231227T225020Z.csv
+## 8 NEON.D01.BART.DP1.10003.001.brd_countdata.2021-06.basic.20231228T010546Z.csv
+## 9 NEON.D01.BART.DP1.10003.001.brd_countdata.2022-06.basic.20231229T053256Z.csv
+##   Abundance Richness
+## 1       454       40
+## 2       883       39
+## 3       685       35
+## 4       772       37
+## 5       628       44
+## 6       626       46
+## 7        89       18
+## 8      1015       50
+## 9       699       39</code></pre>
 
 
 

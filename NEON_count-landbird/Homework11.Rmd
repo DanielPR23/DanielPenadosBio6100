@@ -1,0 +1,111 @@
+---
+title: "Homework11. Batch Processing. "
+author: "Daniel Penados-Richter"
+date: "2024-04-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(stringr)
+```
+To start, go to this link and scroll down to “Download Data”. From there, Sort by Site to download the “BART” dataset for years 2013-2023. In this compressed folder, you should see a list of six folders organized by year in the file name. Store that for now somewhere on your desktop.
+
+From there, follow the instructions from last week’s lectures on barracudar functions to create a new project, storing the dataset in a “Original Data” folder.
+
+2. Within each year’s folder, you will only be using a file from each year labeled “countdata” in its title. Using for loops, iterate through each year’s folders to gather the file names of these “countdata” .csv files.
+```{r}
+
+#First Create a directory path. 
+directory_path <- "/Users/danielpr23/Desktop/Computational Biology/DanielPenadosBio6100/NEON_count-landbird"#Change it to the working directory or were all the folder are. 
+
+#Create a character vector, with the name of the files. This vector will be used, as the search template. 
+folders <- list.dirs(directory_path, full.names = FALSE, recursive = FALSE)
+print(folders)
+
+
+# Becouse not all the file are name the same, use regular espression to find them 
+file_pattern <- "NEON.D01.BART.DP1.10003.001.brd_countdata..*\\.csv"  # Adjust the pattern as needed
+
+#I tried to use barracuda funcion add_folder() but I could not make it to work, I found this code online on how to use an if statement, basically does the same. If the folder new_folder does not exist, it creates it. New folder could also be a character vector and create multiple folders. 
+
+destination_folder <- "new_folder"#Choose the name of the folder. The code should be clean, and work either name you choose. 
+
+if (!file.exists(destination_folder)) {
+  dir.create(destination_folder)
+}
+
+# Now lets loop in folders searching for the file_patten
+for (i in folders) {
+  matching_files <- list.files(path = i, pattern = file_pattern, full.names = TRUE)
+  if (length(matching_files) > 0) { #Just an If statement to print a wanning message if the code does not find the file. 
+    for (j in matching_files) { #It needs to be a double loop, now that it founds the file, paste it in destination_folder in this case, new_folder. 
+      file.copy(j, file.path(destination_folder, basename(j)))
+    }
+  } else {
+    cat("No files matching", file_pattern, "found in", folder, "\n") #Warning message.
+  }
+}
+
+#If it works, files should be storaged in a new folder in your working directory. 
+
+
+```
+
+
+3. Starting with pseudo-code, generate functions for 1) Cleaning the data for any empty/missing cases, 2) Extract the year from each file name, 3) Calculate Abundance for each year (Total number of individuals found), 4) Calculate Species Richness for each year(Number of unique species found)
+
+```{r}
+# Set the WD werre the file are. 
+ directory <- "/Users/danielpr23/Desktop/Computational Biology/DanielPenadosBio6100/NEON_count-landbird/new_folder"
+ 
+ # Create a list with the files in the working Directory
+ files <- list.files(directory, pattern = "NEON.D01.BART.DP1.10003.001.brd_countdata..*\\.csv$", full.names = TRUE)
+ 
+
+ # begin the loop. Looking to i in files. 
+ for (i in files) {
+   # I was not able to extract just the year from the file name, this was the closet i got. Deleting all not numeric values
+   #year <- gsub("\\D", "", basename(file))
+   data <- read.csv(i)
+   # First in loop, eliminate row with NA values in the columns scientificName
+   data <- data[complete.cases(data$scientificName), ]
+
+   # Print results. 
+   cat("File:", basename(i), "\n")
+   cat("how do you extract the year?", "\n")
+   cat("Abundance:", nrow(data), "\n") #Abundance is just the number of rows
+   cat("Richness:", length(unique(data$scientificName)), "\n") #Richness is the number or unique values in the column scientificName
+   cat("\n")
+ }
+
+
+```
+
+
+4. Create an initial empty data frame to hold the above summary statistics-you should have 4 columns, one for the file name, one for abundance, one for species richness, and one for year.Using a for loop, run your created functions as a batch process for each folder, changing the working directory as necessary to read in the correct files, calculating summary statistics with your created functions, and then writing them out into your summary statistics data frame.
+
+```{r}
+#Create a new df to store the values 
+results<- data.frame(File = character(),
+                          Abundance = numeric(),
+                          Richness = numeric())
+                        
+
+ 
+ # Loop through each CSV file
+ for (i in files) {
+   data <- read.csv(i)
+   data <- data[complete.cases(data$scientificName), ]
+   
+   # This time, stead of just printing the results, we are going to store them in a new vector 
+   abundance <- nrow(data)
+   richness <- length(unique(data$scientificName))
+   
+   # Use rbind to fill the data frame, always looping in i. 
+   results <- rbind(results, data.frame(File = basename(i),
+                                              Abundance = abundance,
+                                              Richness = richness))
+ }
+
+ print(results)
+```
