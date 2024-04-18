@@ -427,60 +427,60 @@ species found)</li>
  # begin the loop. Looking to i in files. 
  for (i in files) {
    # I was not able to extract just the year from the file name, this was the closet i got. Deleting all not numeric values
-   #year &lt;- gsub(&quot;\\D&quot;, &quot;&quot;, basename(i))
+   year &lt;- str_extract(basename(i), &quot;\\d{4}-\\d{2}&quot;)
    data &lt;- read.csv(i)
    # First in loop, eliminate row with NA values in the columns scientificName
    data &lt;- data[complete.cases(data$scientificName), ]
 
    # Print results. 
    cat(&quot;File:&quot;, basename(i), &quot;\n&quot;)
-   cat(&quot;how do you extract the year?&quot;, &quot;\n&quot;)
+   cat(&quot;Date:&quot;, year, &quot;\n&quot;) 
    cat(&quot;Abundance:&quot;, nrow(data), &quot;\n&quot;) #Abundance is just the number of rows
    cat(&quot;Richness:&quot;, length(unique(data$scientificName)), &quot;\n&quot;) #Richness is the number or unique values in the column scientificName
    cat(&quot;\n&quot;)
  }</code></pre>
 <pre><code>## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2015-06.basic.20231226T232626Z.csv 
-## how do you extract the year? 
+## Date: 2015-06 
 ## Abundance: 454 
 ## Richness: 40 
 ## 
 ## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2016-06.basic.20231227T013428Z.csv 
-## how do you extract the year? 
+## Date: 2016-06 
 ## Abundance: 883 
 ## Richness: 39 
 ## 
 ## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2017-06.basic.20231227T094709Z.csv 
-## how do you extract the year? 
+## Date: 2017-06 
 ## Abundance: 685 
 ## Richness: 35 
 ## 
 ## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2018-06.basic.20231228T172744Z.csv 
-## how do you extract the year? 
+## Date: 2018-06 
 ## Abundance: 772 
 ## Richness: 37 
 ## 
 ## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2019-06.basic.20231227T184129Z.csv 
-## how do you extract the year? 
+## Date: 2019-06 
 ## Abundance: 628 
 ## Richness: 44 
 ## 
 ## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2020-06.basic.20231227T224944Z.csv 
-## how do you extract the year? 
+## Date: 2020-06 
 ## Abundance: 626 
 ## Richness: 46 
 ## 
 ## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2020-07.basic.20231227T225020Z.csv 
-## how do you extract the year? 
+## Date: 2020-07 
 ## Abundance: 89 
 ## Richness: 18 
 ## 
 ## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2021-06.basic.20231228T010546Z.csv 
-## how do you extract the year? 
+## Date: 2021-06 
 ## Abundance: 1015 
 ## Richness: 50 
 ## 
 ## File: NEON.D01.BART.DP1.10003.001.brd_countdata.2022-06.basic.20231229T053256Z.csv 
-## how do you extract the year? 
+## Date: 2022-06 
 ## Abundance: 699 
 ## Richness: 39</code></pre>
 <ol start="4" style="list-style-type: decimal">
@@ -494,6 +494,7 @@ writing them out into your summary statistics data frame.</li>
 </ol>
 <pre class="r"><code>#Create a new df to store the values 
 results&lt;- data.frame(File = character(),
+                     Date=character(),
                           Abundance = numeric(),
                           Richness = numeric())
                         
@@ -510,6 +511,7 @@ results&lt;- data.frame(File = character(),
    
    # Use rbind to fill the data frame, always looping in i. 
    results &lt;- rbind(results, data.frame(File = basename(i),
+                                              Date = year, 
                                               Abundance = abundance,
                                               Richness = richness))
  }
@@ -525,16 +527,16 @@ results&lt;- data.frame(File = character(),
 ## 7 NEON.D01.BART.DP1.10003.001.brd_countdata.2020-07.basic.20231227T225020Z.csv
 ## 8 NEON.D01.BART.DP1.10003.001.brd_countdata.2021-06.basic.20231228T010546Z.csv
 ## 9 NEON.D01.BART.DP1.10003.001.brd_countdata.2022-06.basic.20231229T053256Z.csv
-##   Abundance Richness
-## 1       454       40
-## 2       883       39
-## 3       685       35
-## 4       772       37
-## 5       628       44
-## 6       626       46
-## 7        89       18
-## 8      1015       50
-## 9       699       39</code></pre>
+##      Date Abundance Richness
+## 1 2022-06       454       40
+## 2 2022-06       883       39
+## 3 2022-06       685       35
+## 4 2022-06       772       37
+## 5 2022-06       628       44
+## 6 2022-06       626       46
+## 7 2022-06        89       18
+## 8 2022-06      1015       50
+## 9 2022-06       699       39</code></pre>
 
 
 

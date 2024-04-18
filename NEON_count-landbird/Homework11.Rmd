@@ -65,21 +65,20 @@ for (i in folders) {
  # begin the loop. Looking to i in files. 
  for (i in files) {
    # I was not able to extract just the year from the file name, this was the closet i got. Deleting all not numeric values
-   #year <- gsub("\\D", "", basename(i))
+   year <- str_extract(basename(i), "\\d{4}-\\d{2}")
    data <- read.csv(i)
    # First in loop, eliminate row with NA values in the columns scientificName
    data <- data[complete.cases(data$scientificName), ]
 
    # Print results. 
    cat("File:", basename(i), "\n")
-   cat("how do you extract the year?", "\n")
+   cat("Date:", year, "\n") 
    cat("Abundance:", nrow(data), "\n") #Abundance is just the number of rows
    cat("Richness:", length(unique(data$scientificName)), "\n") #Richness is the number or unique values in the column scientificName
    cat("\n")
  }
-
-
 ```
+
 
 
 4. Create an initial empty data frame to hold the above summary statistics-you should have 4 columns, one for the file name, one for abundance, one for species richness, and one for year.Using a for loop, run your created functions as a batch process for each folder, changing the working directory as necessary to read in the correct files, calculating summary statistics with your created functions, and then writing them out into your summary statistics data frame.
@@ -87,6 +86,7 @@ for (i in folders) {
 ```{r}
 #Create a new df to store the values 
 results<- data.frame(File = character(),
+                     Date=character(),
                           Abundance = numeric(),
                           Richness = numeric())
                         
@@ -103,6 +103,7 @@ results<- data.frame(File = character(),
    
    # Use rbind to fill the data frame, always looping in i. 
    results <- rbind(results, data.frame(File = basename(i),
+                                              Date = year, 
                                               Abundance = abundance,
                                               Richness = richness))
  }
