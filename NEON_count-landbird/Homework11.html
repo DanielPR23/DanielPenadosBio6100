@@ -503,11 +503,13 @@ results&lt;- data.frame(File = character(),
  # Loop through each CSV file
  for (i in files) {
    data &lt;- read.csv(i)
-   data &lt;- data[complete.cases(data$scientificName), ]
+   data &lt;- data[complete.cases(data$scientificName),
+                ]
    
    # This time, stead of just printing the results, we are going to store them in a new vector 
    abundance &lt;- nrow(data)
    richness &lt;- length(unique(data$scientificName))
+    year &lt;- str_extract(basename(i), &quot;\\d{4}-\\d{2}&quot;)
    
    # Use rbind to fill the data frame, always looping in i. 
    results &lt;- rbind(results, data.frame(File = basename(i),
@@ -528,14 +530,14 @@ results&lt;- data.frame(File = character(),
 ## 8 NEON.D01.BART.DP1.10003.001.brd_countdata.2021-06.basic.20231228T010546Z.csv
 ## 9 NEON.D01.BART.DP1.10003.001.brd_countdata.2022-06.basic.20231229T053256Z.csv
 ##      Date Abundance Richness
-## 1 2022-06       454       40
-## 2 2022-06       883       39
-## 3 2022-06       685       35
-## 4 2022-06       772       37
-## 5 2022-06       628       44
-## 6 2022-06       626       46
-## 7 2022-06        89       18
-## 8 2022-06      1015       50
+## 1 2015-06       454       40
+## 2 2016-06       883       39
+## 3 2017-06       685       35
+## 4 2018-06       772       37
+## 5 2019-06       628       44
+## 6 2020-06       626       46
+## 7 2020-07        89       18
+## 8 2021-06      1015       50
 ## 9 2022-06       699       39</code></pre>
 
 

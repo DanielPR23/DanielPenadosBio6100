@@ -95,11 +95,13 @@ results<- data.frame(File = character(),
  # Loop through each CSV file
  for (i in files) {
    data <- read.csv(i)
-   data <- data[complete.cases(data$scientificName), ]
+   data <- data[complete.cases(data$scientificName),
+                ]
    
    # This time, stead of just printing the results, we are going to store them in a new vector 
    abundance <- nrow(data)
    richness <- length(unique(data$scientificName))
+    year <- str_extract(basename(i), "\\d{4}-\\d{2}")
    
    # Use rbind to fill the data frame, always looping in i. 
    results <- rbind(results, data.frame(File = basename(i),
