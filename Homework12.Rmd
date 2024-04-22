@@ -1,0 +1,100 @@
+---
+title: "Homework12. Ggplot. "
+author: "Daniel Penados-Richter"
+date: "2024-04-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(colorspace)
+library(ggplot2)
+library(ggthemes)
+library(patchwork)
+library(cowplot)
+library(wesanderson)
+library(colorblindr)
+library(ggsci) 
+library(scales)
+library(patchwork)
+library(tidyverse)
+library(ggpubr)
+```
+
+Lets star by importing our data. 
+
+```{r}
+#Call the data
+abl<-read.csv("Abl.csv", sep = ",", header = TRUE)
+glimpse(abl) #Its already in the long form for ggplot
+
+#Lets create a simple box plot, 
+p1<-ggplot(abl, aes(x = Grupes, y = Value, fill = Treatment)) +
+  geom_boxplot()
+
+print(p1) 
+
+```
+
+This is not very pretty. I do not like the color, my name groups are awful, no points or sd in graph. Do not like the backgroun and other stuff. So lets change it. 
+
+Lets do a couple of things firts: 
+1. Rearrange the other of the groups to have consistancy accross figures and other results. 
+2. Change color, crating a variable name fill_colors, that way we could use the same ones across a paper. 
+3. change the theme a use it consistently across the paper. 
+4. Lastly add labels. 
+
+```{r}
+ #Define the desired fill color
+fill_colors <- c("DMSO" = "thistle", "STI571" = "chocolate")
+
+p1 <- ggplot(abl, aes(x = factor(Grupes, levels = c("DCBLD2", "PDGFRB", "A_WT", "A_D842V")), y = Value, fill = Treatment)) + geom_boxplot() + #Notice the groups order is define. 
+  scale_fill_manual(values = fill_colors) + #Fill accordingly to groups 
+  labs( x = "Groups", #Labels
+       y = "pY Signal (Fold to base)",
+       fill = "Treatment") +
+  theme_light()
+# Display the plot
+print(p1)
+
+```
+
+This is starting to look way better. But there is a couple of extra things to do. 
+1. Change the names to of goup variables. Notice we are using a short version to work in R, but this can be change. 
+
+```{r}
+# Change the group names
+new_names <- c("Control", "PDGFRß", "PDGFRA WT", "PDGFRA D842V")
+
+# Updated plot with new group names
+p2 <- p1 + scale_x_discrete(labels = new_names)
+print(p2)
+```
+The last this that is missing to be perfect is to the results of out post hoc test. We are going to perform an anova, comparing each group within treatment. 
+
+```{r}
+
+p2 <- ggplot(abl, aes(x = factor(Grupes, levels = c("DCBLD2", "PDGFRB", "A_WT", "A_D842V")), y = Value, fill = Treatment)) + 
+  geom_boxplot() + 
+  scale_fill_manual(values = fill_colors) + 
+  labs(x = "Groups", y = "pY Signal (Fold to base)", fill = "Treatment") +
+  theme_light() +
+  stat_compare_means(aes(group = Treatment), method = "t.test", label = "p.signif") #Use this function to imput the post hoc test values 
+
+p3 <- p2 + scale_x_discrete(labels = new_names)
+print(p3)
+```
+
+Now lets extract the figure to a new pdf, jpg or tiff. 
+
+```{r}
+#Save to PDF
+ggsave("plot.pdf", p3, device = "pdf")
+
+#Save o JPG
+ggsave("plot.jpg", p2, device = "jpg")
+
+#Lastly, save tiff 300 dpi as usually they ask. 
+
+ggsave("plot.tiff", p2, device = "tiff", dpi = 300)
+
+```
