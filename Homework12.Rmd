@@ -91,10 +91,10 @@ Now lets extract the figure to a new pdf, jpg or tiff.
 ggsave("plot.pdf", p3, device = "pdf")
 
 #Save o JPG
-ggsave("plot.jpg", p2, device = "jpg")
+ggsave("plot.jpg", p3, device = "jpg")
 
 #Lastly, save tiff 300 dpi as usually they ask. 
 
-ggsave("plot.tiff", p2, device = "tiff", dpi = 300)
+ggsave("plot.tiff", p3, device = "tiff", dpi = 300)
 
 ```
