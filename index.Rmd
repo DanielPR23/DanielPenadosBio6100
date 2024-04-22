@@ -32,4 +32,5 @@ This is the link for Homework 10, For Loops and Randomization : [Link](Homework1
 
 This is the link for Homework 11, Batch Processing: [Link](NEON_count-landbird/Homework11.html).
 
-This is the link for Homework 12, Batch Processing: [Link](Homework12.html).
+This is the link for Homework 12, Playing with GGPLOT: [Link](Homework12.html).
+

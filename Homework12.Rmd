@@ -1,5 +1,5 @@
 ---
-title: "Homework12. Ggplot. "
+title: "Homework12. Playing with GGPLOT "
 author: "Daniel Penados-Richter"
 date: "2024-04-22"
 output: html_document
@@ -35,12 +35,15 @@ print(p1)
 
 ```
 
-This is not very pretty. I do not like the color, my name groups are awful, no points or sd in graph. Do not like the backgroun and other stuff. So lets change it. 
+This is not very pretty. I do not like the color, my name groups are awful. Do not like the background and other stuff. So lets change it. 
 
-Lets do a couple of things firts: 
-1. Rearrange the other of the groups to have consistancy accross figures and other results. 
-2. Change color, crating a variable name fill_colors, that way we could use the same ones across a paper. 
+Lets do a couple of things first: 
+1. Rearrange the order of the groups to have consistency across figures and other results. 
+
+2. Change color, crating a variable name fill_colors, that way we could use the same across our paper. 
+
 3. change the theme a use it consistently across the paper. 
+
 4. Lastly add labels. 
 
 ```{r}
@@ -59,6 +62,7 @@ print(p1)
 ```
 
 This is starting to look way better. But there is a couple of extra things to do. 
+
 1. Change the names to of goup variables. Notice we are using a short version to work in R, but this can be change. 
 
 ```{r}
@@ -69,6 +73,7 @@ new_names <- c("Control", "PDGFRß", "PDGFRA WT", "PDGFRA D842V")
 p2 <- p1 + scale_x_discrete(labels = new_names)
 print(p2)
 ```
+
 The last this that is missing to be perfect is to the results of out post hoc test. We are going to perform an anova, comparing each group within treatment. 
 
 ```{r}
@@ -78,7 +83,7 @@ p2 <- ggplot(abl, aes(x = factor(Grupes, levels = c("DCBLD2", "PDGFRB", "A_WT", 
   scale_fill_manual(values = fill_colors) + 
   labs(x = "Groups", y = "pY Signal (Fold to base)", fill = "Treatment") +
   theme_light() +
-  stat_compare_means(aes(group = Treatment), method = "t.test", label = "p.signif") #Use this function to imput the post hoc test values 
+  stat_compare_means(aes(group = Treatment), method = "t.test", label = "p.signif") 
 
 p3 <- p2 + scale_x_discrete(labels = new_names)
 print(p3)
